@@ -7,7 +7,10 @@
       <input id="new-item" v-model="newItem" type="text" />
     </form>
     <ul>
-      <li v-for="item in requestedItems" :key="item.id">{{ item.message }}</li>
+      <li v-for="item in requestedItems" :key="item.id">
+        {{ item.message }}
+        <button @click="removeItem(item.id)">Delete</button>
+      </li>
     </ul>
   </div>
 </template>
@@ -20,33 +23,35 @@ export default {
   data: function() {
     return {
       newItem: "",
-      itemIds: ["foo"],
-      items: {
-        foo: {
+      items: [
+        {
+          id: "foo",
           isComplete: false,
           message: "My first task",
         },
-      },
+      ],
     };
   },
   computed: {
     requestedItems: function() {
-      return this.itemIds.map((itemId) => ({
-        ...this.items[itemId],
-        id: itemId,
-      }));
+      return this.items;
     },
   },
   methods: {
     handleNewItemSubmit: function(event) {
-      const itemId = `${Math.random()}`;
-      const item = { isComplete: true, message: this.newItem };
+      const item = {
+        id: `${Math.random()}`,
+        isComplete: true,
+        message: this.newItem,
+      };
 
-      this.itemIds = [...this.itemIds, itemId];
-      this.items = { ...this.items, [itemId]: item };
+      this.items = [...this.items, item];
       this.newItem = "";
 
       event.preventDefault();
+    },
+    removeItem: function(removeId) {
+      this.items = this.items.filter(({ id }) => id !== removeId);
     },
   },
   components: {
