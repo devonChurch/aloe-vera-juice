@@ -19,6 +19,7 @@
         <button @click="handleRemoveClick(item.id)">Delete</button>
       </li>
     </ul>
+    <span>{{ totalActiveItems }}</span>
     <label for="request-all">All</label>
     <input
       type="radio"
@@ -67,6 +68,11 @@ export default {
   computed: {
     requestedItems() {
       return this[`requestItems-${this.requestedType}`]();
+    },
+    totalActiveItems() {
+      const total = this["requestItems-active"]().length;
+      const itemPlural = total === 1 ? "item" : "items";
+      return `${total} ${itemPlural} left`;
     },
   },
   methods: {
