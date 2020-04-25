@@ -45,6 +45,9 @@
         value="completed"
         v-model="requestedType"
       />
+      <button v-show="hasCompletedItems" @click="handleClearCompletedClick">
+        Clear completed
+      </button>
     </div>
   </div>
 </template>
@@ -72,7 +75,10 @@ export default {
       return this[`requestItems-${this.requestedType}`]();
     },
     hasAnyItems() {
-      return Boolean(this.items.length);
+      return Boolean(this["requestItems-all"]().length);
+    },
+    hasCompletedItems() {
+      return Boolean(this["requestItems-completed"]().length);
     },
     totalActiveItems() {
       const total = this["requestItems-active"]().length;
@@ -97,6 +103,9 @@ export default {
     },
     handleRemoveClick(removeId) {
       this.items = this.items.filter(({ id }) => id !== removeId);
+    },
+    handleClearCompletedClick() {
+      this.items = this.items.filter(({ isComplete }) => !isComplete);
     },
     "requestItems-all"() {
       return this.items;
