@@ -1,10 +1,19 @@
 <template>
   <div id="app">
-    <img alt="Vue logo" src="./assets/logo.png" />
-    <HelloWorld msg="Welcome to Your Vue.js App" />
+    <div v-show="hasAnyItems">
+      <label for="complete-all">Complete all</label>
+      <input
+        type="checkbox"
+        id="complete-all"
+        name="complete-all"
+        :indeterminate.prop="hasPartialCompletedItems"
+        @change="handleCompleteAllChange"
+        v-model="isCompleteAllToggled"
+      />
+    </div>
     <form @submit="handleNewItemSubmit">
       <label for="new-item"></label>
-      <input id="new-item" v-model="newItem" type="text" />
+      <input id="new-item" v-model="newItemMessage" type="text" />
     </form>
     <div v-show="hasAnyItems">
       <ul>
@@ -14,13 +23,14 @@
             type="checkbox"
             :id="'complete-' + item.id"
             :name="'complete-' + item.id"
+            @change="handleCompleteItemChange"
             v-model="item.isComplete"
           />
           {{ item.message }}
           <button @click="handleRemoveClick(item.id)">Delete</button>
         </li>
       </ul>
-      <span>{{ totalActiveItems }}</span>
+      <span>{{ activeItemsMessage }}</span>
       <label for="request-all">All</label>
       <input
         type="radio"
@@ -45,7 +55,7 @@
         value="completed"
         v-model="requestedType"
       />
-      <button v-show="hasCompletedItems" @click="handleClearCompletedClick">
+      <button v-show="hasAnyCompletedItems" @click="handleClearCompletedClick">
         Clear completed
       </button>
     </div>
@@ -59,15 +69,10 @@ export default {
   name: "App",
   data() {
     return {
+      isCompleteAllToggled: false,
       requestedType: "all",
-      newItem: "",
-      items: [
-        {
-          id: "foo",
-          isComplete: false,
-          message: "My first task",
-        },
-      ],
+      newItemMessage: "",
+      items: [],
     };
   },
   computed: {
@@ -77,26 +82,36 @@ export default {
     hasAnyItems() {
       return Boolean(this["requestItems-all"]().length);
     },
-    hasCompletedItems() {
+    hasAnyCompletedItems() {
       return Boolean(this["requestItems-completed"]().length);
     },
-    totalActiveItems() {
+    hasPartialCompletedItems() {
+      const totalItems = this["requestItems-all"]().length;
+      const totalCompletedItems = this["requestItems-completed"]().length;
+      return totalCompletedItems && totalCompletedItems < totalItems;
+    },
+    activeItemsMessage() {
       const total = this["requestItems-active"]().length;
       const itemPlural = total === 1 ? "item" : "items";
       return `${total} ${itemPlural} left`;
     },
   },
+  watch: {
+    items() {
+      this.setCompleteAllToggle();
+    },
+  },
   methods: {
     handleNewItemSubmit(event) {
-      if (this.newItem !== "") {
+      if (this.newItemMessage !== "") {
         const item = {
           id: `${Math.random()}`,
           isComplete: false,
-          message: this.newItem,
+          message: this.newItemMessage,
         };
 
         this.items = [...this.items, item];
-        this.newItem = "";
+        this.newItemMessage = "";
       }
 
       event.preventDefault();
@@ -107,6 +122,15 @@ export default {
     handleClearCompletedClick() {
       this.items = this.items.filter(({ isComplete }) => !isComplete);
     },
+    handleCompleteAllChange() {
+      this.items = [...this.items].map((item) => ({
+        ...item,
+        isComplete: this.isCompleteAllToggled,
+      }));
+    },
+    handleCompleteItemChange() {
+      this.setCompleteAllToggle();
+    },
     "requestItems-all"() {
       return this.items;
     },
@@ -115,6 +139,11 @@ export default {
     },
     "requestItems-completed"() {
       return this.items.filter(({ isComplete }) => isComplete);
+    },
+    setCompleteAllToggle() {
+      this.isCompleteAllToggled = !this.items.some(
+        ({ isComplete }) => !isComplete
+      );
     },
   },
   components: {
