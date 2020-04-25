@@ -8,8 +8,15 @@
     </form>
     <ul>
       <li v-for="item in requestedItems" :key="item.id">
+        <label :for="item.id + '-complete'">Complete</label>
+        <input
+          type="checkbox"
+          :id="item.id + '-complete'"
+          :name="item.id + '-complete'"
+          v-model="item.isComplete"
+        />
         {{ item.message }}
-        <button @click="removeItem(item.id)">Delete</button>
+        <button @click="handleRemoveClick(item.id)">Delete</button>
       </li>
     </ul>
   </div>
@@ -41,7 +48,7 @@ export default {
     handleNewItemSubmit: function(event) {
       const item = {
         id: `${Math.random()}`,
-        isComplete: true,
+        isComplete: false,
         message: this.newItem,
       };
 
@@ -50,7 +57,7 @@ export default {
 
       event.preventDefault();
     },
-    removeItem: function(removeId) {
+    handleRemoveClick: function(removeId) {
       this.items = this.items.filter(({ id }) => id !== removeId);
     },
   },
