@@ -1,5 +1,6 @@
 <template>
-  <div id="app">
+  <main id="app">
+    <h1>Todos</h1>
     <div v-show="hasAnyItems">
       <label for="complete-all">Complete all</label>
       <input
@@ -12,7 +13,7 @@
       />
     </div>
     <form @submit="handleNewItemSubmit">
-      <label for="new-item"></label>
+      <label for="new-item">Add Task</label>
       <input id="new-item" v-model="newItemMessage" type="text" />
     </form>
     <div v-show="hasAnyItems">
@@ -59,7 +60,7 @@
         Clear completed
       </button>
     </div>
-  </div>
+  </main>
 </template>
 
 <script>
