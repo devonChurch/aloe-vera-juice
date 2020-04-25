@@ -8,17 +8,41 @@
     </form>
     <ul>
       <li v-for="item in requestedItems" :key="item.id">
-        <label :for="item.id + '-complete'">Complete</label>
+        <label :for="'complete-' + item.id">Complete</label>
         <input
           type="checkbox"
-          :id="item.id + '-complete'"
-          :name="item.id + '-complete'"
+          :id="'complete-' + item.id"
+          :name="'complete-' + item.id"
           v-model="item.isComplete"
         />
         {{ item.message }}
         <button @click="handleRemoveClick(item.id)">Delete</button>
       </li>
     </ul>
+    <label for="request-all">All</label>
+    <input
+      type="radio"
+      id="request-all"
+      name="request-type"
+      value="all"
+      v-model="requestedType"
+    />
+    <label for="request-active">Active</label>
+    <input
+      type="radio"
+      id="request-active"
+      name="request-type"
+      value="active"
+      v-model="requestedType"
+    />
+    <label for="request-completed">Completed</label>
+    <input
+      type="radio"
+      id="request-completed"
+      name="request-type"
+      value="completed"
+      v-model="requestedType"
+    />
   </div>
 </template>
 
@@ -27,8 +51,9 @@ import HelloWorld from "./components/HelloWorld.vue";
 
 export default {
   name: "App",
-  data: function() {
+  data() {
     return {
+      requestedType: "all",
       newItem: "",
       items: [
         {
@@ -40,25 +65,36 @@ export default {
     };
   },
   computed: {
-    requestedItems: function() {
-      return this.items;
+    requestedItems() {
+      return this[`requestItems-${this.requestedType}`]();
     },
   },
   methods: {
-    handleNewItemSubmit: function(event) {
-      const item = {
-        id: `${Math.random()}`,
-        isComplete: false,
-        message: this.newItem,
-      };
+    handleNewItemSubmit(event) {
+      if (this.newItem !== "") {
+        const item = {
+          id: `${Math.random()}`,
+          isComplete: false,
+          message: this.newItem,
+        };
 
-      this.items = [...this.items, item];
-      this.newItem = "";
+        this.items = [...this.items, item];
+        this.newItem = "";
+      }
 
       event.preventDefault();
     },
-    handleRemoveClick: function(removeId) {
+    handleRemoveClick(removeId) {
       this.items = this.items.filter(({ id }) => id !== removeId);
+    },
+    "requestItems-all"() {
+      return this.items;
+    },
+    "requestItems-active"() {
+      return this.items.filter(({ isComplete }) => !isComplete);
+    },
+    "requestItems-completed"() {
+      return this.items.filter(({ isComplete }) => isComplete);
     },
   },
   components: {
