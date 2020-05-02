@@ -1,6 +1,8 @@
 <template>
   <main id="app">
     <h1>Todos</h1>
+    <p>{{ $t("message.hello") }}</p>
+    <p v-t="'message.hello'"></p>
     <div v-show="hasAnyItems">
       <label for="complete-all">Complete all</label>
       <input
@@ -73,6 +75,13 @@ export default {
       newItemMessage: "",
       items: [],
     };
+  },
+  mounted() {
+    // created() {
+    console.log("MOUNTED!!!");
+    console.log(this.$t);
+    console.log(this);
+    console.dir(this);
   },
   computed: {
     requestedItems() {
