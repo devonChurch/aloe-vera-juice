@@ -1,0 +1,28 @@
+{
+  "heading": {
+    "app": "Tasks"
+  },
+  "label": {
+    "filter": {
+      "all": "All",
+      "active": "Active",
+      "completed": "Completed"
+    },
+    "complete": {
+      "all": "Complete all",
+      "one": "Complete"
+    },
+    "add": {
+      "one": "Add task"
+    },
+    "active": {
+      "all": "No tasks left | 1 task left | {n} tasks left"
+    }
+  },
+  "action": {
+    "remove": {
+      "one": "Delete",
+      "completed": "Clear completed tasks"
+    }
+  }
+}

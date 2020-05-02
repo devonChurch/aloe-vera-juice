@@ -1,0 +1,15 @@
+{
+  "heading": {
+    "app": "Student tasks"
+  },
+  "label": {
+    "active": {
+      "all": "No student tasks left | 1 student task left | {n} student tasks left"
+    }
+  },
+  "action": {
+    "remove": {
+      "completed": "Clear completed student tasks"
+    }
+  }
+}

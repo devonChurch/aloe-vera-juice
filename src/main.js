@@ -1,5 +1,6 @@
 import Vue from "vue";
 import VueI18n from "vue-i18n";
+import merge from "lodash.merge";
 import App from "./App.vue";
 import router from "./router";
 
@@ -13,34 +14,7 @@ Vue.config.productionTip = false;
 // }
 
 const messages = {
-  en: {
-    heading: {
-      app: "Todos",
-    },
-    label: {
-      filter: {
-        all: "All",
-        active: "Active",
-        completed: "Completed",
-      },
-      complete: {
-        all: "Complete all",
-        one: "Complete",
-      },
-      add: {
-        one: "Add task",
-      },
-      active: {
-        all: "No items left | 1 item left | {n} items left",
-      },
-    },
-    action: {
-      remove: {
-        one: "Delete",
-        completed: "Clear completed",
-      },
-    },
-  },
+  en: {},
 };
 
 Vue.use(VueI18n);
@@ -54,8 +28,19 @@ router.beforeEach((to, from, next) => {
   const hasI18nMessages = Boolean(
     Object.keys(i18n.getLocaleMessage("en")).length
   );
-  console.log({ hasI18nMessages });
-  next();
+  const fetchMessages = (...args) =>
+    fetch(`./i18n/${args.join(".")}.json`).then((response) => response.json());
+
+  if (hasI18nMessages) {
+    next();
+  } else {
+    Promise.all([fetchMessages("en"), fetchMessages("en", "school")]).then(
+      ([messageBase, messageModifier]) => {
+        i18n.setLocaleMessage("en", merge(messageBase, messageModifier));
+        next();
+      }
+    );
+  }
 });
 
 new Vue({
