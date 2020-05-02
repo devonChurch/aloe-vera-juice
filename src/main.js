@@ -15,7 +15,32 @@ Vue.config.productionTip = false;
 const messages = {
   en: {
     message: {
-      hello: "hello world",
+      heading: {
+        app: "Todos",
+      },
+      label: {
+        filter: {
+          all: "All",
+          active: "Active",
+          completed: "Completed",
+        },
+        complete: {
+          all: "Complete all",
+          one: "Complete",
+        },
+        add: {
+          one: "Add task",
+        },
+        active: {
+          all: "No items left | 1 item left | {n} items left",
+        },
+      },
+      action: {
+        remove: {
+          one: "Delete",
+          completed: "Clear completed",
+        },
+      },
     },
   },
 };

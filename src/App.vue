@@ -1,10 +1,8 @@
 <template>
   <main id="app">
-    <h1>Todos</h1>
-    <p>{{ $t("message.hello") }}</p>
-    <p v-t="'message.hello'"></p>
+    <h1>{{ $t("message.heading.app") }}</h1>
     <div v-show="hasAnyItems">
-      <label for="complete-all">Complete all</label>
+      <label for="complete-all">{{ $t("message.label.complete.all") }}</label>
       <input
         type="checkbox"
         id="complete-all"
@@ -15,13 +13,15 @@
       />
     </div>
     <form @submit="handleNewItemSubmit">
-      <label for="new-item">Add Task</label>
+      <label for="new-item">{{ $t("message.label.add.one") }}</label>
       <input id="new-item" v-model="newItemMessage" type="text" />
     </form>
     <div v-show="hasAnyItems">
       <ul>
         <li v-for="item in requestedItems" :key="item.id">
-          <label :for="'complete-' + item.id">Complete</label>
+          <label :for="'complete-' + item.id">{{
+            $t("message.label.complete.one")
+          }}</label>
           <input
             type="checkbox"
             :id="'complete-' + item.id"
@@ -30,11 +30,13 @@
             v-model="item.isComplete"
           />
           {{ item.message }}
-          <button @click="handleRemoveClick(item.id)">Delete</button>
+          <button @click="handleRemoveClick(item.id)">
+            {{ $t("message.action.remove.one") }}
+          </button>
         </li>
       </ul>
-      <span>{{ activeItemsMessage }}</span>
-      <label for="request-all">All</label>
+      <span>{{ $tc("message.label.active.all", totalActiveItems) }}</span>
+      <label for="request-all">{{ $t("message.label.filter.all") }}</label>
       <input
         type="radio"
         id="request-all"
@@ -42,7 +44,9 @@
         value="all"
         v-model="requestedType"
       />
-      <label for="request-active">Active</label>
+      <label for="request-active">{{
+        $t("message.label.filter.active")
+      }}</label>
       <input
         type="radio"
         id="request-active"
@@ -50,7 +54,9 @@
         value="active"
         v-model="requestedType"
       />
-      <label for="request-completed">Completed</label>
+      <label for="request-completed">{{
+        $t("message.label.filter.completed")
+      }}</label>
       <input
         type="radio"
         id="request-completed"
@@ -59,7 +65,7 @@
         v-model="requestedType"
       />
       <button v-show="hasAnyCompletedItems" @click="handleClearCompletedClick">
-        Clear completed
+        {{ $t("message.action.remove.completed") }}
       </button>
     </div>
   </main>
@@ -76,13 +82,6 @@ export default {
       items: [],
     };
   },
-  mounted() {
-    // created() {
-    console.log("MOUNTED!!!");
-    console.log(this.$t);
-    console.log(this);
-    console.dir(this);
-  },
   computed: {
     requestedItems() {
       return this[`requestItems-${this.requestedType}`]();
@@ -98,10 +97,8 @@ export default {
       const totalCompletedItems = this["requestItems-completed"]().length;
       return totalCompletedItems && totalCompletedItems < totalItems;
     },
-    activeItemsMessage() {
-      const total = this["requestItems-active"]().length;
-      const itemPlural = total === 1 ? "item" : "items";
-      return `${total} ${itemPlural} left`;
+    totalActiveItems() {
+      return this["requestItems-active"]().length;
     },
   },
   watch: {
