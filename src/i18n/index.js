@@ -6,6 +6,14 @@ Vue.use(VueI18n);
 
 const locale = document.querySelector("html").getAttribute("lang");
 
+const skew = (() => {
+  const skews = ["school", "home", "work"];
+  const [skew] = window.location.hostname.split(".");
+  const hasSkew = skews.includes(skew);
+
+  return hasSkew ? skew : skews[0];
+})();
+
 const messages = {
   //   en: {},
   //   fr: {},
@@ -26,9 +34,8 @@ const fetchMessages = (...args) =>
 export const fetchI18nMessages = () =>
   checkHasI18nMessages()
     ? Promise.resolve()
-    : Promise.all([
-        fetchMessages(locale),
-        fetchMessages(locale, "school"),
-      ]).then(([messageBase, messageModifier]) => {
-        i18n.setLocaleMessage(locale, merge(messageBase, messageModifier));
-      });
+    : Promise.all([fetchMessages(locale), fetchMessages(locale, skew)]).then(
+        ([messageBase, messageModifier]) => {
+          i18n.setLocaleMessage(locale, merge(messageBase, messageModifier));
+        }
+      );

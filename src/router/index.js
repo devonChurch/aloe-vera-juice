@@ -10,6 +10,10 @@ const routes = [
     name: "Todo",
     component: Todo,
   },
+  {
+    path: "/*",
+    redirect: "/",
+  },
 ];
 
 const router = new VueRouter({

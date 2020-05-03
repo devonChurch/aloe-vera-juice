@@ -1,0 +1,15 @@
+{
+  "heading": {
+    "app": "Employee tasks"
+  },
+  "label": {
+    "active": {
+      "all": "No employee tasks left | 1 employee task left | {n} employee tasks left"
+    }
+  },
+  "action": {
+    "remove": {
+      "completed": "Clear completed employee tasks"
+    }
+  }
+}

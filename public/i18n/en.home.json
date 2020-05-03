@@ -1,0 +1,15 @@
+{
+  "heading": {
+    "app": "Homework tasks"
+  },
+  "label": {
+    "active": {
+      "all": "No homework tasks left | 1 homework task left | {n} homework tasks left"
+    }
+  },
+  "action": {
+    "remove": {
+      "completed": "Clear completed homework tasks"
+    }
+  }
+}
