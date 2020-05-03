@@ -1,8 +1,7 @@
 import Vue from "vue";
-import VueI18n from "vue-i18n";
-import merge from "lodash.merge";
 import App from "./App.vue";
 import router from "./router";
+import { i18n, fetchI18nMessages } from "./i18n";
 
 Vue.config.productionTip = false;
 
@@ -13,35 +12,7 @@ Vue.config.productionTip = false;
 //   });
 // }
 
-const messages = {
-  en: {},
-};
-
-Vue.use(VueI18n);
-
-const i18n = new VueI18n({
-  locale: "en", // set locale
-  messages, // set locale messages
-});
-
-router.beforeEach((to, from, next) => {
-  const hasI18nMessages = Boolean(
-    Object.keys(i18n.getLocaleMessage("en")).length
-  );
-  const fetchMessages = (...args) =>
-    fetch(`./i18n/${args.join(".")}.json`).then((response) => response.json());
-
-  if (hasI18nMessages) {
-    next();
-  } else {
-    Promise.all([fetchMessages("en"), fetchMessages("en", "school")]).then(
-      ([messageBase, messageModifier]) => {
-        i18n.setLocaleMessage("en", merge(messageBase, messageModifier));
-        next();
-      }
-    );
-  }
-});
+router.beforeEach((to, from, next) => fetchI18nMessages().then(() => next()));
 
 new Vue({
   i18n,
