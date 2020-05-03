@@ -38,10 +38,11 @@ const setI18nLocal = (locale) => {
 };
 
 export const fetchI18nMessages = ({ locale = DEFAULT_LOCAL }) =>
-  setI18nLocal(locale) || checkHasI18nMessages(locale)
-    ? Promise.resolve()
+  checkHasI18nMessages(locale)
+    ? setI18nLocal(locale) || Promise.resolve()
     : Promise.all([fetchMessages(locale), fetchMessages(locale, skew)]).then(
         ([messageBase, messageModifier]) => {
           i18n.setLocaleMessage(locale, merge(messageBase, messageModifier));
+          setI18nLocal(locale);
         }
       );
