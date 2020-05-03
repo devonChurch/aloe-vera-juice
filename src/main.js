@@ -1,5 +1,6 @@
 import Vue from "vue";
 import App from "./App.vue";
+import "bootstrap/dist/css/bootstrap.css";
 import router from "./router";
 import { i18n, fetchI18nMessages } from "./i18n";
 

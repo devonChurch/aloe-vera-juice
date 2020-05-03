@@ -1,9 +1,13 @@
 <template>
-  <div>
+  <div class="container">
     <header>
-      <ul>
-        <li><router-link to="/en">English</router-link></li>
-        <li><router-link to="/de">German</router-link></li>
+      <ul class="nav py-2">
+        <li class="nav-item">
+          <router-link class="nav-link" to="/en">English</router-link>
+        </li>
+        <li class="nav-item">
+          <router-link class="nav-link" to="/de">German</router-link>
+        </li>
       </ul>
     </header>
     <main id="app">
