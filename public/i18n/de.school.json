@@ -1,0 +1,15 @@
+{
+  "heading": {
+    "app": "Schüleraufgaben"
+  },
+  "label": {
+    "active": {
+      "all": "Keine studentischen Aufgaben mehr | 1 Schüleraufgabe übrig | {n} studentische Aufgaben übrig"
+    }
+  },
+  "action": {
+    "remove": {
+      "completed": "Erledige erledigte Schüleraufgaben"
+    }
+  }
+}

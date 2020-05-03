@@ -6,13 +6,13 @@ Vue.use(VueRouter);
 
 const routes = [
   {
-    path: "/",
+    path: "/:locale",
     name: "Todo",
     component: Todo,
   },
   {
     path: "/*",
-    redirect: "/",
+    redirect: "/en",
   },
 ];
 

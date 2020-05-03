@@ -12,7 +12,9 @@ Vue.config.productionTip = false;
 //   });
 // }
 
-router.beforeEach((to, from, next) => fetchI18nMessages().then(() => next()));
+router.beforeEach((to, from, next) =>
+  fetchI18nMessages(to.params).then(() => next())
+);
 
 new Vue({
   i18n,

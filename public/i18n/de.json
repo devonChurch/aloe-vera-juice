@@ -1,0 +1,28 @@
+{
+  "heading": {
+    "app": "Aufgaben"
+  },
+  "label": {
+    "filter": {
+      "all": "Alle",
+      "active": "Aktiv",
+      "completed": "Abgeschlossen"
+    },
+    "complete": {
+      "all": "Vervollständige alles",
+      "one": "Komplett"
+    },
+    "add": {
+      "one": "Aufgabe hinzufügen"
+    },
+    "active": {
+      "all": "Keine Aufgaben mehr | 1 Aufgabe übrig | {n} Aufgaben übrig"
+    }
+  },
+  "action": {
+    "remove": {
+      "one": "Löschen",
+      "completed": "Erledige erledigte Aufgaben"
+    }
+  }
+}

@@ -1,0 +1,15 @@
+{
+  "heading": {
+    "app": "Mitarbeiteraufgaben"
+  },
+  "label": {
+    "active": {
+      "all": "Keine Mitarbeiteraufgaben mehr | 1 Mitarbeiteraufgabe übrig | {n} Mitarbeiteraufgaben übrig"
+    }
+  },
+  "action": {
+    "remove": {
+      "completed": "Erledige erledigte Mitarbeiteraufgaben"
+    }
+  }
+}

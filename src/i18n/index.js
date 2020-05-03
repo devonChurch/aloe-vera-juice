@@ -4,7 +4,7 @@ import merge from "lodash.merge";
 
 Vue.use(VueI18n);
 
-const locale = document.querySelector("html").getAttribute("lang");
+const DEFAULT_LOCAL = document.querySelector("html").getAttribute("lang");
 
 const skew = (() => {
   const skews = ["school", "home", "work"];
@@ -21,18 +21,24 @@ const messages = {
 };
 
 export const i18n = new VueI18n({
-  locale,
+  locale: DEFAULT_LOCAL,
+  fallbackLocale: DEFAULT_LOCAL,
   messages,
 });
 
-const checkHasI18nMessages = () =>
+const checkHasI18nMessages = (locale) =>
   Boolean(Object.keys(i18n.getLocaleMessage(locale)).length);
 
 const fetchMessages = (...args) =>
   fetch(`./i18n/${args.join(".")}.json`).then((response) => response.json());
 
-export const fetchI18nMessages = () =>
-  checkHasI18nMessages()
+const setI18nLocal = (locale) => {
+  i18n.locale = locale;
+  document.querySelector("html").setAttribute("lang", locale);
+};
+
+export const fetchI18nMessages = ({ locale = DEFAULT_LOCAL }) =>
+  setI18nLocal(locale) || checkHasI18nMessages(locale)
     ? Promise.resolve()
     : Promise.all([fetchMessages(locale), fetchMessages(locale, skew)]).then(
         ([messageBase, messageModifier]) => {

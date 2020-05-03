@@ -1,0 +1,15 @@
+{
+  "heading": {
+    "app": "Hausaufgaben"
+  },
+  "label": {
+    "active": {
+      "all": "Keine Hausaufgaben mehr | 1 Hausaufgabe übrig | {n} Hausaufgaben übrig"
+    }
+  },
+  "action": {
+    "remove": {
+      "completed": "Erledige erledigte Hausaufgaben"
+    }
+  }
+}
