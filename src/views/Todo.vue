@@ -64,7 +64,7 @@
         </button>
       </li>
     </ul>
-    <div class="card-body">
+    <div v-show="hasAnyItems" class="card-body">
       <div class="h5">{{ $tc("label.active.all", totalActiveItems) }}</div>
       <div class="form-check">
         <input
